@@ -1,6 +1,14 @@
 package kate.cinema.backend.command;
 
 
+import kate.cinema.backend.command.admin.CreateContactCommand;
+import kate.cinema.backend.command.admin.DeleteContactCommand;
+import kate.cinema.backend.command.guest.LogInCommand;
+import kate.cinema.backend.command.guest.RegisterCommand;
+import kate.cinema.backend.command.user.GetContactCommand;
+import kate.cinema.backend.command.user.GetContactsCommand;
+import kate.cinema.backend.command.user.LogOutCommand;
+import kate.cinema.backend.command.user.UpdateContactCommand;
 import kate.cinema.entity.enums.RoleEnum;
 
 import java.util.EnumSet;
