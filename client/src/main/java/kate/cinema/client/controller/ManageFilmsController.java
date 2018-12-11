@@ -23,8 +23,8 @@ import java.util.Map;
 
 import static kate.cinema.client.util.AlertUtil.alert;
 
-public class FilmsController {
-    private static final Logger logger = LogManager.getLogger(FilmsController.class);
+public class ManageFilmsController {
+    private static final Logger logger = LogManager.getLogger(ManageFilmsController.class);
 
     private static final String DATE_TIME_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
@@ -61,13 +61,15 @@ public class FilmsController {
     @FXML
     private Button buyTicketBtn;
 
+
+
     @FXML
     private void initialize() {
         SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_TIME_FORMAT_PATTERN);
         logger.debug("initialize");
 
 
-        idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
+        idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getFilm().getId()).asObject());
         titleColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFilm().getTitle()));
         costColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFilm().getTicketCost().toString()));
         ticketsLeftColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getFilm().getTicketsLeft()).asObject());
@@ -183,7 +185,7 @@ public class FilmsController {
         String title = searchByTitleTextField.getText();
         Map<String, String> params = new HashMap<>();
         if (id != null && !id.isEmpty()) {
-            params.put("scheduleId", id);
+            params.put("id", id);
         }
         if (title != null && !title.isEmpty()) {
             params.put("title", title);

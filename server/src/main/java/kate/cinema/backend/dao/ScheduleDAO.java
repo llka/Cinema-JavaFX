@@ -115,13 +115,13 @@ public class ScheduleDAO {
 
     public List<Schedule> find(Map<String, String> filterParams) throws ApplicationException {
         StringBuilder query = new StringBuilder(FIND);
-        final String ID_PARAM = "id";
+        final String ID_PARAM = "scheduleId";
         final String TITLE_PARAM = "title";
         boolean and = false;
         boolean findable = false;
 
         if (filterParams.get(ID_PARAM) != null) {
-            query.append(" `shedule`.`film_id` = ? ");
+            query.append(" `shedule`.`shedule_id` = ? ");
             and = true;
             findable = true;
         }

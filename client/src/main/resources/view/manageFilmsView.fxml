@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kate.cinema.client.controller.ManageFilmsController">
+    <children>
+        <Button fx:id="searchBtn" layoutX="207.0" layoutY="76.0" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="56.0" text="Search" />
+        <Button fx:id="refreshBtn" layoutX="505.0" layoutY="42.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
+        <Label layoutX="207.0" layoutY="20.0" text="Schedule Id" />
+        <TextField fx:id="searchByIdTextField" layoutX="207.0" layoutY="42.0" prefHeight="25.0" prefWidth="56.0" promptText="id" />
+        <TextField fx:id="searchByTitleTextField" layoutX="277.0" layoutY="42.0" promptText="title" />
+        <Button fx:id="getAllBtn" layoutX="277.0" layoutY="76.0" mnemonicParsing="false" onAction="#getAll" prefHeight="25.0" prefWidth="128.0" text="All Films" />
+        <Label layoutX="277.0" layoutY="20.0" text="Title" />
+
+        <VBox layoutX="94.0" layoutY="54.0" prefHeight="112.0" prefWidth="85.0" spacing="4.0">
+            <children>
+                <TextField fx:id="scheduleIdupdate" prefHeight="25.0" prefWidth="79.0" promptText="Id" />
+            <TextField fx:id="filmIdUpdate" promptText="Film Id" />
+            <TextField fx:id="titleUpdate" promptText="Title" />
+                <TextField fx:id="costUpdate" promptText="Cost" />
+            <TextField fx:id="durationUpdate" promptText="Duration" />
+            <TextField fx:id="dateUpdate" promptText="Date" />
+            <TextField fx:id="ticketsCountUpdate" promptText="Tickets count" />
+            </children>
+        </VBox>
+        <VBox layoutX="11.0" layoutY="58.0" prefHeight="104.0" prefWidth="79.0" spacing="12.0">
+            <children>
+                <Label text="Schedule Id" />
+                <Label text="Film Id" />
+            <Label text="Title" />
+                <Label prefHeight="17.0" prefWidth="85.0" text="Ticket Cost " />
+            <Label text="Duration" />
+            <Label text="Date" />
+            <Label text="Tickets Count" />
+            </children>
+        </VBox>
+        <Separator layoutY="16.0" prefHeight="4.0" prefWidth="600.0" />
+        <Separator layoutX="179.0" layoutY="28.0" orientation="VERTICAL" prefHeight="371.0" prefWidth="12.0" />
+
+        <TableView fx:id="table" editable="true" layoutX="186.0" layoutY="121.0" prefHeight="234.0" prefWidth="398.0" tableMenuButtonVisible="true">
+            <columns>
+                <TableColumn fx:id="idColumn" prefWidth="29.0" text="Id" />
+                <TableColumn fx:id="titleColumn" prefWidth="152.0" text="Title" />
+                <TableColumn fx:id="durationColumn" prefWidth="85.0" text="Duration Min." />
+                <TableColumn fx:id="dateColumn" minWidth="0.0" prefWidth="96.0" text="Date" />
+                <TableColumn fx:id="costColumn" minWidth="6.0" prefWidth="95.0" text="Ticket cost" />
+                <TableColumn fx:id="ticketsLeftColumn" prefWidth="97.0" text="Tickets left" />
+            </columns>
+        </TableView>
+
+
+        <Button fx:id="deleteBtn" layoutX="418.0" layoutY="76.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
+        <Button fx:id="updateByScheduleBtn" layoutX="27.0" layoutY="263.0" mnemonicParsing="false" onAction="#updateByScheduleId" text="Update By Schedule Id" />
+      <Button fx:id="addBtn" layoutX="51.0" layoutY="330.0" mnemonicParsing="false" onAction="#addFilm" text="Add new film" />
+      <Button fx:id="updateByFilmIdBtn" layoutX="40.0" layoutY="294.0" mnemonicParsing="false" onAction="#updateByFilmId" text="Update By Film Id" />
+    </children>
+</AnchorPane>

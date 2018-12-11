@@ -8,11 +8,16 @@
     <children>
         <Button fx:id="searchBtn" layoutX="105.0" layoutY="76.0" mnemonicParsing="false" onAction="#search"
                 prefHeight="25.0" prefWidth="56.0" text="Search"/>
-        <Button fx:id="buyTicketBtn" layoutX="383.0" layoutY="76.0" mnemonicParsing="false" onAction="#buyTicket"
-                prefHeight="25.0" prefWidth="83.0" text="Buy ticket"/>
+        <Button fx:id="refreshBtn" layoutX="506.0" layoutY="45.0" mnemonicParsing="false" onAction="#refresh"
+                text="Refresh"/>
         <Label layoutX="105.0" layoutY="20.0" text="Film ID"/>
         <TextField fx:id="searchByIdTextField" layoutX="105.0" layoutY="45.0" prefHeight="25.0" prefWidth="56.0"
                    promptText="id"/>
+        <TextField fx:id="searchByTitleTextField" layoutX="180.0" layoutY="45.0" promptText="title"/>
+        <Button fx:id="getAllBtn" layoutX="180.0" layoutY="76.0" mnemonicParsing="false" onAction="#getAllSticks"
+                prefHeight="25.0" prefWidth="128.0" text="All Films"/>
+        <Label layoutX="180.0" layoutY="20.0" text="Title"/>
+
         <Separator layoutY="14.0" prefHeight="4.0" prefWidth="600.0"/>
         <TableView fx:id="table" editable="true" layoutX="17.0" layoutY="121.0" prefHeight="234.0" prefWidth="567.0"
                    tableMenuButtonVisible="true">
@@ -25,14 +30,12 @@
                 <TableColumn fx:id="ticketsLeftColumn" prefWidth="97.0" text="Tickets left"/>
             </columns>
         </TableView>
-        <Button fx:id="getAllBtn" layoutX="180.0" layoutY="76.0" mnemonicParsing="false" onAction="#getAllSticks"
-                prefHeight="25.0" prefWidth="128.0" text="All Films"/>
-        <Label layoutX="180.0" layoutY="20.0" text="Title"/>
+
+
         <TextField fx:id="placeTextField" layoutX="383.0" layoutY="45.0" prefHeight="25.0" prefWidth="83.0"
                    promptText="place number"/>
         <Label layoutX="383.0" layoutY="20.0" text="Buy ticket on place"/>
-        <Button fx:id="refreshBtn" layoutX="506.0" layoutY="45.0" mnemonicParsing="false" onAction="#refresh"
-                text="Refresh"/>
-        <TextField fx:id="searchByTitleTextField" layoutX="180.0" layoutY="45.0" promptText="title"/>
+        <Button fx:id="buyTicketBtn" layoutX="383.0" layoutY="76.0" mnemonicParsing="false" onAction="#buyTicket"
+                prefHeight="25.0" prefWidth="83.0" text="Buy ticket"/>
     </children>
 </AnchorPane>
