@@ -28,6 +28,13 @@ public class Contact implements DatabaseEntity {
     public Contact() {
     }
 
+    public Contact(@NotBlank String firstName, @NotBlank String lastName, @Email String email, @NotBlank @Pattern(regexp = "^{4,}$") String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+    }
+
     public int getId() {
         return id;
     }

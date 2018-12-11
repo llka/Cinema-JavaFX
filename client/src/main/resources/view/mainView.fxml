@@ -1,35 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.BorderPane?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-            prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="kate.cinema.client.controller.MainController">
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kate.cinema.client.controller.MainController">
     <top>
         <MenuBar BorderPane.alignment="TOP_CENTER">
             <menus>
                 <Menu mnemonicParsing="false" text="Server">
                     <items>
-                        <MenuItem fx:id="menuServerConnect" mnemonicParsing="false" onAction="#connectToServer"
-                                  text="Connect"/>
-                        <MenuItem fx:id="menuServerDisconnect" disable="true" mnemonicParsing="false"
-                                  onAction="#disconnectFromServer" text="Disconnect"/>
+                        <MenuItem fx:id="menuServerConnect" mnemonicParsing="false" onAction="#connectToServer" text="Connect" />
+                        <MenuItem fx:id="menuServerDisconnect" disable="true" mnemonicParsing="false" onAction="#disconnectFromServer" text="Disconnect" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Authentication">
                     <items>
-                        <MenuItem fx:id="menuLogIn" disable="true" mnemonicParsing="false" onAction="#login"
-                                  text="Log in"/>
-                        <MenuItem fx:id="menuLogOut" disable="true" mnemonicParsing="false" onAction="#logOut"
-                                  text="Log out"/>
+                  <MenuItem fx:id="menuRegister" disable="true" mnemonicParsing="false" onAction="#register" text="Register" />
+                        <MenuItem fx:id="menuLogIn" disable="true" mnemonicParsing="false" onAction="#login" text="Log in" />
+                        <MenuItem fx:id="menuLogOut" disable="true" mnemonicParsing="false" onAction="#logOut" text="Log out" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Profile">
                     <items>
-                        <MenuItem fx:id="menuMyProfile" disable="true" mnemonicParsing="false"
-                                  onAction="#openMyProfileView" text="My Profile"/>
-                        <MenuItem fx:id="menuManageUsersProfiles" disable="true" mnemonicParsing="false"
-                                  onAction="#openManageUsersView" text="Manage Profiles"/>
+                        <MenuItem fx:id="menuMyProfile" disable="true" mnemonicParsing="false" onAction="#openMyProfileView" text="My Profile" />
+                        <MenuItem fx:id="menuManageUsersProfiles" disable="true" mnemonicParsing="false" onAction="#openManageUsersView" text="Manage Profiles" />
                     </items>
                 </Menu>
             </menus>

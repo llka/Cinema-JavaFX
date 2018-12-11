@@ -20,6 +20,10 @@ public class ContextHolder {
     }
 
     public static CommandResponse getLastResponse() {
+        if (responseStack == null) {
+            responseStack = new ArrayDeque<>();
+        }
+
         while (true) {
             try {
                 CommandResponse response = responseStack.pop();
