@@ -47,7 +47,7 @@ ENGINE = InnoDB;
 -- Table `cinema`.`shedule`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cinema`.`shedule` (
-  `shedule_id` INT NOT NULL,
+  `shedule_id` INT NOT NULL AUTO_INCREMENT,
   `film_id` INT NOT NULL,
   `date` DATETIME NOT NULL,
   PRIMARY KEY (`shedule_id`),

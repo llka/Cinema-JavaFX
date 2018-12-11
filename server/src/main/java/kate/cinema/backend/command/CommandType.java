@@ -5,10 +5,7 @@ import kate.cinema.backend.command.admin.CreateContactCommand;
 import kate.cinema.backend.command.admin.DeleteContactCommand;
 import kate.cinema.backend.command.guest.LogInCommand;
 import kate.cinema.backend.command.guest.RegisterCommand;
-import kate.cinema.backend.command.user.GetContactCommand;
-import kate.cinema.backend.command.user.GetContactsCommand;
-import kate.cinema.backend.command.user.LogOutCommand;
-import kate.cinema.backend.command.user.UpdateContactCommand;
+import kate.cinema.backend.command.user.*;
 import kate.cinema.entity.enums.RoleEnum;
 
 import java.util.EnumSet;
@@ -63,6 +60,20 @@ public enum CommandType {
         {
             this.command = new DeleteContactCommand();
             this.role = EnumSet.of(RoleEnum.ADMIN);
+        }
+    },
+
+    GET_FILMS {
+        {
+            this.command = new GetFilmsCommand();
+            this.role = EnumSet.of(RoleEnum.ADMIN, RoleEnum.USER);
+        }
+    },
+
+    BUY_TICKET {
+        {
+            this.command = new BuyTicketCommand();
+            this.role = EnumSet.of(RoleEnum.ADMIN, RoleEnum.USER);
         }
     },
 

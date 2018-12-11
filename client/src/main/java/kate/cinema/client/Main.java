@@ -55,7 +55,6 @@ public class Main extends Application {
     }
 
     public void showGuestMainView() {
-        logger.debug("show guestMainView view from main");
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("/view/guestMainView.fxml"));

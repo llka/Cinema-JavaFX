@@ -58,6 +58,11 @@ public class MainController {
     private MenuItem menuMyTickets;
 
     @FXML
+    private MenuItem menuFilms;
+    @FXML
+    private MenuItem menuManageFilms;
+
+    @FXML
     void connectToServer(ActionEvent event) {
         TextInputDialog dialog = new TextInputDialog("1996");
         dialog.setTitle("Connect Dialog");
@@ -319,6 +324,26 @@ public class MainController {
         }
     }
 
+    @FXML
+    void openFilmsView(ActionEvent event) {
+        if (isAuthenticatedUser()) {
+            FilmsController.setFirstOpened(true);
+            main.showView("/view/filmsView.fxml");
+        } else {
+            alert(Alert.AlertType.ERROR, "You are not authorized!", "You are not authorized!");
+        }
+    }
+
+    @FXML
+    void openManageFilmsView(ActionEvent event) {
+//        if (isAuthenticatedAdmin()) {
+//             FilmsController.setFirstOpened(true);
+//            main.showView("/view/manageFilmsView.fxml");
+//        } else {
+//            alert(Alert.AlertType.ERROR, "You are not authorized!", "You are not authorized!");
+//        }
+    }
+
     private void refreshMenuItemsAccordingToVisitorRole() {
         Session session = ContextHolder.getSession();
         if (session == null) {
@@ -331,8 +356,9 @@ public class MainController {
 
             menuMyProfile.setDisable(true);
             menuMyTickets.setDisable(true);
+            menuFilms.setDisable(true);
 
-
+            menuManageFilms.setDisable(true);
             menuManageUsersProfiles.setDisable(true);
         } else {
             if (session.getVisitor() != null) {
@@ -346,7 +372,9 @@ public class MainController {
 
                         menuMyProfile.setDisable(true);
                         menuMyTickets.setDisable(true);
+                        menuFilms.setDisable(true);
 
+                        menuManageFilms.setDisable(true);
                         menuManageUsersProfiles.setDisable(true);
 
                         break;
@@ -357,8 +385,9 @@ public class MainController {
 
                         menuMyProfile.setDisable(false);
                         menuMyTickets.setDisable(false);
+                        menuFilms.setDisable(false);
 
-
+                        menuManageFilms.setDisable(true);
                         menuManageUsersProfiles.setDisable(true);
 
                         break;
@@ -369,8 +398,9 @@ public class MainController {
 
                         menuMyProfile.setDisable(false);
                         menuMyTickets.setDisable(false);
+                        menuFilms.setDisable(false);
 
-
+                        menuManageFilms.setDisable(false);
                         menuManageUsersProfiles.setDisable(false);
                         break;
                     default:

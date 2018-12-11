@@ -17,6 +17,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ScheduleDAO {
     private static final Logger logger = LogManager.getLogger(ScheduleDAO.class);
@@ -29,7 +30,11 @@ public class ScheduleDAO {
     private static final String GET_BY_ID = "SELECT `shedule_id`, `film_id`, `date` " +
             " FROM `shedule` WHERE `shedule_id` = ?";
     private static final String GET_ALL = "SELECT `shedule_id`, `film_id`, `date` " +
-            "FROM `shedule`";
+            " FROM `shedule`";
+    private static final String FIND = "SELECT `shedule`.`shedule_id`, `shedule`.`film_id`, `shedule`.`date` " +
+            " FROM `shedule` JOIN `film` ON `film`.`film_id` = `shedule`.`film_id` WHERE ";
+
+
     private static final String DELETE = "DELETE FROM `shedule` WHERE `shedule_id`= ?";
 
     private static final String COLUMN_FILM_ID = "film_id";
@@ -105,6 +110,57 @@ public class ScheduleDAO {
             return scheduleList;
         } catch (SQLException e) {
             throw new ApplicationException("Cannot get all schedules. " + e, ResponseStatus.BAD_REQUEST);
+        }
+    }
+
+    public List<Schedule> find(Map<String, String> filterParams) throws ApplicationException {
+        StringBuilder query = new StringBuilder(FIND);
+        final String ID_PARAM = "id";
+        final String TITLE_PARAM = "title";
+        boolean and = false;
+        boolean findable = false;
+
+        if (filterParams.get(ID_PARAM) != null) {
+            query.append(" `shedule`.`film_id` = ? ");
+            and = true;
+            findable = true;
+        }
+        if (filterParams.get(TITLE_PARAM) != null) {
+            if (and) {
+                query.append(" AND ");
+            }
+            query.append(" `film`.`title` = ? ");
+            and = true;
+            findable = true;
+        }
+
+        if (!findable) {
+            query = new StringBuilder(GET_ALL);
+        }
+
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query.toString())) {
+
+            int index = 1;
+            if (filterParams.get(ID_PARAM) != null) {
+                try {
+                    preparedStatement.setInt(index++, Integer.parseInt(filterParams.get(ID_PARAM)));
+                } catch (NumberFormatException e) {
+                    throw new ApplicationException("Invalid id!", ResponseStatus.BAD_REQUEST);
+                }
+            }
+            if (filterParams.get(TITLE_PARAM) != null) {
+                preparedStatement.setString(index++, filterParams.get(TITLE_PARAM));
+            }
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Schedule> scheduleList = new ArrayList<>();
+            while (resultSet.next()) {
+                scheduleList.add(buildSchedule(resultSet));
+            }
+            return scheduleList;
+        } catch (SQLException e) {
+            throw new ApplicationException("Cannot find films." + e, ResponseStatus.BAD_REQUEST);
         }
     }
 

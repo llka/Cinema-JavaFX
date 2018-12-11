@@ -2,6 +2,7 @@ package kate.cinema.backend.dao;
 
 import kate.cinema.backend.database.ConnectionPool;
 import kate.cinema.backend.exception.ApplicationException;
+import kate.cinema.entity.Contact;
 import kate.cinema.entity.Ticket;
 import kate.cinema.entity.enums.ResponseStatus;
 import org.apache.log4j.LogManager;
@@ -9,10 +10,7 @@ import org.apache.log4j.Logger;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +22,8 @@ public class TicketDAO {
             " VALUES (?, ?, ?)";
     private static final String UPDATE = "UPDATE `ticket` SET `place_number` = ?, `cost` = ?, `shedule_id` = ? " +
             " WHERE `ticket_id` = ?";
+    private static final String SAVE_TO_CONTACTS_TICKETS = "INSERT INTO `contact_has_ticket` (`contact_contact_id`, `ticket_ticket_id`) VALUES (?, ?) ";
+
     private static final String GET_BY_ID = "SELECT `ticket_id`, `place_number`, `cost`, `shedule_id` " +
             " FROM `ticket` WHERE `ticket_id` = ?";
     private static final String GET_ALL = "SELECT `ticket_id`, `place_number`, `cost`, `shedule_id` " +
@@ -46,15 +46,40 @@ public class TicketDAO {
         scheduleDAO = new ScheduleDAO();
     }
 
-    public void save(@Valid Ticket ticket) throws ApplicationException {
+    public Ticket save(@Valid Ticket ticket) throws ApplicationException {
         try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SAVE)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SAVE, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, ticket.getPlaceNumber());
             preparedStatement.setBigDecimal(2, ticket.getCost());
             preparedStatement.setInt(3, ticket.getSchedule().getId());
-            preparedStatement.execute();
+
+            int affectedRows = preparedStatement.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new ApplicationException("Cannot save ticket. " + ticket, ResponseStatus.NOT_FOUND);
+            }
+
+            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    ticket.setId(generatedKeys.getInt(1));
+                } else {
+                    throw new ApplicationException("Cannot save ticket, no ID obtained. " + ticket, ResponseStatus.NOT_FOUND);
+                }
+            }
+            return ticket;
         } catch (SQLException e) {
             throw new ApplicationException("Cannot save ticket. " + ticket + " " + e, ResponseStatus.BAD_REQUEST);
+        }
+    }
+
+    public void saveToContactsTickets(@Valid Ticket ticket, @Valid Contact contact) throws ApplicationException {
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SAVE_TO_CONTACTS_TICKETS)) {
+            preparedStatement.setInt(1, contact.getId());
+            preparedStatement.setInt(2, ticket.getId());
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            throw new ApplicationException("Cannot save ticket to contacts tickets. " + ticket + " " + e, ResponseStatus.BAD_REQUEST);
         }
     }
 
