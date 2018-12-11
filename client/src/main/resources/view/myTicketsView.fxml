@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="kate.cinema.client.controller.MyTicketsController">
+    <children>
+        <Separator layoutY="14.0" prefHeight="4.0" prefWidth="600.0"/>
+        <TableView fx:id="table" editable="true" layoutX="17.0" layoutY="121.0" prefHeight="234.0" prefWidth="567.0"
+                   tableMenuButtonVisible="true">
+            <columns>
+                <TableColumn fx:id="idColumn" prefWidth="39.0" text="Id"/>
+                <TableColumn fx:id="placeColumn" prefWidth="51.0" text="Place"/>
+                <TableColumn fx:id="costColumn" prefWidth="87.0" text="Cost"/>
+                <TableColumn fx:id="filmTitleColumn" minWidth="0.0" prefWidth="199.0" text="Film Title"/>
+                <TableColumn fx:id="dateColumn" prefWidth="154.0" text="Date"/>
+            </columns>
+        </TableView>
+        <Label layoutX="278.0" layoutY="28.0" prefHeight="17.0" prefWidth="78.0" text="Tickets"/>
+        <Button fx:id="refreshBtn" layoutX="505.0" layoutY="24.0" mnemonicParsing="false" onAction="#refresh"
+                text="Refresh"/>
+    </children>
+</AnchorPane>

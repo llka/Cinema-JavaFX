@@ -54,6 +54,8 @@ public class MainController {
     private MenuItem menuServerDisconnect;
     @FXML
     private MenuItem menuLogIn;
+    @FXML
+    private MenuItem menuMyTickets;
 
     @FXML
     void connectToServer(ActionEvent event) {
@@ -307,6 +309,16 @@ public class MainController {
 //        }
     }
 
+    @FXML
+    void openMyTicketsView(ActionEvent event) {
+        if (isAuthenticatedUser()) {
+            MyTicketsController.setFirst(true);
+            main.showView("/view/myTicketsView.fxml");
+        } else {
+            alert(Alert.AlertType.ERROR, "You are not authorized!", "You are not authorized!");
+        }
+    }
+
     private void refreshMenuItemsAccordingToVisitorRole() {
         Session session = ContextHolder.getSession();
         if (session == null) {
@@ -318,6 +330,7 @@ public class MainController {
             menuRegister.setDisable(true);
 
             menuMyProfile.setDisable(true);
+            menuMyTickets.setDisable(true);
 
 
             menuManageUsersProfiles.setDisable(true);
@@ -332,7 +345,7 @@ public class MainController {
                         menuRegister.setDisable(false);
 
                         menuMyProfile.setDisable(true);
-
+                        menuMyTickets.setDisable(true);
 
                         menuManageUsersProfiles.setDisable(true);
 
@@ -343,6 +356,7 @@ public class MainController {
                         menuRegister.setDisable(true);
 
                         menuMyProfile.setDisable(false);
+                        menuMyTickets.setDisable(false);
 
 
                         menuManageUsersProfiles.setDisable(true);
@@ -354,6 +368,7 @@ public class MainController {
                         menuRegister.setDisable(true);
 
                         menuMyProfile.setDisable(false);
+                        menuMyTickets.setDisable(false);
 
 
                         menuManageUsersProfiles.setDisable(false);
