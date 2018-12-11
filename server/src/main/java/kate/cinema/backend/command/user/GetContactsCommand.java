@@ -1,11 +1,12 @@
 package kate.cinema.backend.command.user;
 
-import kate.cinema.ContactListDTO;
+
 import kate.cinema.backend.command.ActionCommand;
 import kate.cinema.backend.command.CommandType;
 import kate.cinema.backend.exception.ApplicationException;
 import kate.cinema.backend.service.ContactService;
 import kate.cinema.backend.util.JsonUtil;
+import kate.cinema.dto.ContactListDTO;
 import kate.cinema.entity.Contact;
 import kate.cinema.entity.enums.ResponseStatus;
 import kate.cinema.entity.technical.CommandRequest;

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="kate.cinema.client.controller.ManageProfilesController">
+    <children>
+        <TextField fx:id="searchByIdTextField" layoutX="193.0" layoutY="41.0" prefHeight="25.0" prefWidth="58.0"
+                   promptText="id"/>
+        <Label layoutX="194.0" layoutY="21.0" text="Contact ID"/>
+        <Button fx:id="searchBtn" layoutX="194.0" layoutY="70.0" mnemonicParsing="false" onAction="#search"
+                prefHeight="25.0" prefWidth="56.0" text="Search"/>
+        <Button fx:id="deleteBtn" layoutX="489.0" layoutY="70.0" mnemonicParsing="false" onAction="#delete"
+                prefHeight="25.0" prefWidth="56.0" text="Delete"/>
+        <Button fx:id="updateBtn" layoutX="396.0" layoutY="70.0" mnemonicParsing="false" onAction="#update"
+                prefHeight="25.0" prefWidth="83.0" text="Update Role"/>
+        <Button fx:id="addUserBtn" layoutX="82.0" layoutY="156.0" mnemonicParsing="false" onAction="#addUser"
+                text="Add Contact"/>
+        <TextField fx:id="searchByEmailTextField" layoutX="260.0" layoutY="41.0" prefHeight="25.0" prefWidth="128.0"
+                   promptText="email"/>
+        <VBox layoutX="69.0" layoutY="24.0" prefHeight="112.0" prefWidth="110.0" spacing="4.0">
+            <children>
+                <TextField fx:id="newFirstNameTextField" prefHeight="25.0" prefWidth="79.0" promptText="First Name"/>
+                <TextField fx:id="newLastNameTextField" prefHeight="25.0" prefWidth="79.0" promptText="Last Name"/>
+                <TextField fx:id="newEmailTextField" prefHeight="25.0" prefWidth="79.0" promptText="Email"/>
+                <TextField fx:id="newPasswordTextField" promptText="password"/>
+            </children>
+        </VBox>
+        <VBox layoutX="9.0" layoutY="28.0" prefWidth="67.0" spacing="12.0">
+            <children>
+                <Label text="First Name"/>
+                <Label text="Last Name"/>
+                <Label text="Email"/>
+                <Label text="Password"/>
+            </children>
+        </VBox>
+        <Separator layoutY="14.0" prefHeight="4.0" prefWidth="600.0"/>
+        <Separator layoutX="180.0" layoutY="14.0" orientation="VERTICAL" prefHeight="333.0" prefWidth="7.0"/>
+        <TableView fx:id="contactsTable" editable="true" layoutX="193.0" layoutY="102.0" prefHeight="234.0"
+                   prefWidth="393.0" tableMenuButtonVisible="true">
+            <columns>
+                <TableColumn fx:id="userIdColumn" prefWidth="57.0" text="Id"/>
+                <TableColumn fx:id="userFirstNameColumn" prefWidth="75.0" text="Name"/>
+                <TableColumn fx:id="userLastNameColumn" prefWidth="73.0" text="LastName"/>
+                <TableColumn fx:id="userEmailColumn" prefWidth="79.0" text="Email"/>
+                <TableColumn fx:id="userRoleColumn" prefWidth="73.0" text="Role"/>
+            </columns>
+        </TableView>
+        <Button fx:id="getAllUsersBtn" layoutX="260.0" layoutY="70.0" mnemonicParsing="false" onAction="#getAllUsers"
+                prefHeight="25.0" prefWidth="128.0" text="Search All Contacts"/>
+        <Label layoutX="264.0" layoutY="21.0" text="Contact Email"/>
+        <Label layoutX="396.0" layoutY="20.0" text="New Role"/>
+        <ComboBox fx:id="updateRoleComboBox" layoutX="396.0" layoutY="41.0" prefHeight="25.0" prefWidth="148.0"/>
+    </children>
+</AnchorPane>

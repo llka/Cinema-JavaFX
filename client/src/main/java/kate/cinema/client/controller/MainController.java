@@ -301,12 +301,12 @@ public class MainController {
 
     @FXML
     void openManageUsersView(ActionEvent event) {
-//        if (isAuthenticatedAdmin()) {
-//            ManageContactsController.setFirstOpened(true);
-//            main.showView("/layout/usersProfilesView.fxml");
-//        } else {
-//            alert(Alert.AlertType.ERROR, "You are not authorized!", "Only Admin can manage users!");
-//        }
+        if (isAuthenticatedAdmin()) {
+            ManageProfilesController.setFirstOpened(true);
+            main.showView("/view/manageProfilesView.fxml");
+        } else {
+            alert(Alert.AlertType.ERROR, "You are not authorized!", "Only Admin can manage contacts!");
+        }
     }
 
     @FXML
