@@ -1,21 +1,26 @@
 package kate.cinema.backend.service;
 
 import kate.cinema.backend.dao.ContactDAO;
+import kate.cinema.backend.dao.TicketDAO;
 import kate.cinema.backend.exception.ApplicationException;
 import kate.cinema.entity.Contact;
+import kate.cinema.entity.Ticket;
 import kate.cinema.entity.enums.ResponseStatus;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ContactService {
     private static final Logger logger = LogManager.getLogger(ContactService.class);
 
     private ContactDAO contactDAO;
+    private TicketDAO ticketDAO;
 
     public ContactService() {
         this.contactDAO = new ContactDAO();
+        this.ticketDAO = new TicketDAO();
     }
 
     public Contact login(String email, String password) throws ApplicationException {
@@ -78,11 +83,11 @@ public class ContactService {
 
     private Contact fetchContactsTickets(Contact contact) throws ApplicationException {
         if (contact != null) {
-//            List<Equipment> equipment = new ArrayList<>();
-//            equipment.addAll(skatesDAO.getContactsSkates(contact.getId()));
-//            equipment.addAll(stickDAO.getContactsSticks(contact.getId()));
-//
-//            contact.setBookedEquipment(equipment);
+            List<Ticket> tickets = ticketDAO.getTicketsForContact(contact.getId());
+            if (tickets == null) {
+                tickets = new ArrayList<>();
+            }
+            contact.setTickets(tickets);
             return contact;
         } else {
             throw new ApplicationException("Contact is null!", ResponseStatus.BAD_REQUEST);

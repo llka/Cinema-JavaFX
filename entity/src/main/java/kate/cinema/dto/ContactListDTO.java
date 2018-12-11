@@ -1,4 +1,4 @@
-package kate.cinema;
+package kate.cinema.dto;
 
 import kate.cinema.entity.Contact;
 
