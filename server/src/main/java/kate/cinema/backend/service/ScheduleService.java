@@ -7,6 +7,7 @@ import kate.cinema.entity.Schedule;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,12 @@ public class ScheduleService {
 
     private FilmDAO filmDAO;
     private ScheduleDAO scheduleDAO;
+
+    private static final String UPDATE_PARAM_COST = "costToUpdate";
+    private static final String UPDATE_PARAM_DURATION = "durationToUpdate";
+    private static final String UPDATE_PARAM_TICKETS = "ticketsCountToUpdate";
+    private static final String UPDATE_PARAM_DATE = "dateToUpdate";
+    private static final String UPDATE_PARAM_TITLE = "titleToUpdate";
 
     public ScheduleService() {
         filmDAO = new FilmDAO();
@@ -30,10 +37,20 @@ public class ScheduleService {
     }
 
     public List<Schedule> getAllFilms() throws ApplicationException {
-
         return scheduleDAO.getAll();
+    }
+
+    public void deleteSchedule(Schedule schedule) throws ApplicationException {
+        scheduleDAO.deleteById(schedule.getId());
+    }
+
+    public void update(Schedule oldSchedule, Map<String, String> updateParams){
+        if(updateParams.get(UPDATE_PARAM_DATE) != null){
+            oldSchedule.setDate(new Date(updateParams.get(UPDATE_PARAM_DATE)));
+        }
 
     }
+
 
 
 }

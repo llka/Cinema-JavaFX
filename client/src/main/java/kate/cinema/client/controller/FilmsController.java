@@ -27,8 +27,11 @@ public class FilmsController {
     private static final Logger logger = LogManager.getLogger(FilmsController.class);
 
     private static final String DATE_TIME_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    private static final String FILTER_PARAM_SCHEDULE_ID = "scheduleId";
+    private static final String FILTER_PARAM_TITLE = "title";
 
     private static boolean firstOpened = true;
+
 
     @FXML
     private TableView table;
@@ -183,10 +186,10 @@ public class FilmsController {
         String title = searchByTitleTextField.getText();
         Map<String, String> params = new HashMap<>();
         if (id != null && !id.isEmpty()) {
-            params.put("scheduleId", id);
+            params.put(FILTER_PARAM_SCHEDULE_ID, id);
         }
         if (title != null && !title.isEmpty()) {
-            params.put("title", title);
+            params.put(FILTER_PARAM_TITLE, title);
         }
         return params;
     }

@@ -3,6 +3,8 @@ package kate.cinema.backend.command;
 
 import kate.cinema.backend.command.admin.CreateContactCommand;
 import kate.cinema.backend.command.admin.DeleteContactCommand;
+import kate.cinema.backend.command.admin.DeleteScheduleCommand;
+import kate.cinema.backend.command.admin.UpdateScheduleCommand;
 import kate.cinema.backend.command.guest.LogInCommand;
 import kate.cinema.backend.command.guest.RegisterCommand;
 import kate.cinema.backend.command.user.*;
@@ -74,6 +76,19 @@ public enum CommandType {
         {
             this.command = new BuyTicketCommand();
             this.role = EnumSet.of(RoleEnum.ADMIN, RoleEnum.USER);
+        }
+    },
+
+    DELETE_SCHEDULE {
+        {
+            this.command = new DeleteScheduleCommand();
+            this.role = EnumSet.of(RoleEnum.ADMIN);
+        }
+    },
+    UPDATE_SCHEDULE {
+        {
+            this.command = new UpdateScheduleCommand();
+            this.role = EnumSet.of(RoleEnum.ADMIN);
         }
     },
 

@@ -18,6 +18,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +28,14 @@ public class ManageFilmsController {
     private static final Logger logger = LogManager.getLogger(ManageFilmsController.class);
 
     private static final String DATE_TIME_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    private static final String FILTER_PARAM_SCHEDULE_ID = "scheduleId";
+    private static final String FILTER_PARAM_TITLE = "title";
+    private static final String UPDATE_PARAM_COST = "costToUpdate";
+    private static final String UPDATE_PARAM_DURATION = "durationToUpdate";
+    private static final String UPDATE_PARAM_TICKETS = "ticketsCountToUpdate";
+    private static final String UPDATE_PARAM_DATE = "dateToUpdate";
+    private static final String UPDATE_PARAM_TITLE = "titleToUpdate";
+
 
     private static boolean firstOpened = true;
 
@@ -47,20 +56,41 @@ public class ManageFilmsController {
 
 
     @FXML
-    private Button searchBtn;
-    @FXML
     private TextField searchByIdTextField;
+    @FXML
+    private TextField searchByTitleTextField;
+
     @FXML
     private Button getAllBtn;
     @FXML
     private Button refreshBtn;
     @FXML
-    private TextField searchByTitleTextField;
-    @FXML
-    private TextField placeTextField;
-    @FXML
-    private Button buyTicketBtn;
+    private Button searchBtn;
 
+
+    @FXML
+    private TextField costUpdate;
+    @FXML
+    private TextField durationUpdate;
+    @FXML
+    private TextField scheduleIdupdate;
+    @FXML
+    private TextField ticketsCountUpdate;
+    @FXML
+    private TextField filmIdUpdate;
+    @FXML
+    private DatePicker dateUpdate;
+    @FXML
+    private TextField titleUpdate;
+
+    @FXML
+    private Button updateByScheduleBtn;
+    @FXML
+    private Button updateByFilmIdBtn;
+    @FXML
+    private Button addBtn;
+    @FXML
+    private Button deleteBtn;
 
 
     @FXML
@@ -69,7 +99,7 @@ public class ManageFilmsController {
         logger.debug("initialize");
 
 
-        idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getFilm().getId()).asObject());
+        idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
         titleColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFilm().getTitle()));
         costColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFilm().getTicketCost().toString()));
         ticketsLeftColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getFilm().getTicketsLeft()).asObject());
@@ -140,38 +170,7 @@ public class ManageFilmsController {
     }
 
     @FXML
-    void buyTicket(ActionEvent event) {
-        String placeText = placeTextField.getText();
-
-        if (placeText != null && !placeText.isEmpty()) {
-            try {
-                int place = Integer.parseInt(placeText);
-                Map<String, String> params = prepareFilterParams();
-                params.put("place", placeText);
-                try {
-                    ContextHolder.getClient().sendRequest(new CommandRequest("BUY_TICKET", params));
-                    CommandResponse response = ContextHolder.getLastResponse();
-                    logger.debug("Response " + response);
-                    if (response.getStatus().is2xxSuccessful()) {
-                        ScheduleListDTO scheduleListDTO = JsonUtil.deserialize(response.getBody(), ScheduleListDTO.class);
-                        table.setItems(FXCollections.observableArrayList(scheduleListDTO.getScheduleList()));
-                        alert("Successfully bought the ticket!");
-                    } else {
-                        alert(Alert.AlertType.ERROR, "Cannot fill in table!", response.getBody());
-                    }
-                } catch (ClientException e) {
-                    logger.error(e);
-                    alert(Alert.AlertType.ERROR, "Cannot fill in table!", e.getMessage());
-                }
-            } catch (IllegalArgumentException e) {
-                alert(Alert.AlertType.ERROR, "Invalid place value!", "Use integers to define place number!");
-            }
-
-        }
-    }
-
-    @FXML
-    void getAllSticks(ActionEvent event) {
+    void getAll(ActionEvent event) {
         fillTable();
     }
 
@@ -180,16 +179,97 @@ public class ManageFilmsController {
         fillTable();
     }
 
+
+    @FXML
+    void delete(ActionEvent event) {
+        Map<String, String> params = prepareFilterParams();
+        try {
+            ContextHolder.getClient().sendRequest(new CommandRequest("DELETE_SCHEDULE", params));
+            CommandResponse response = ContextHolder.getLastResponse();
+            if (response.getStatus().is2xxSuccessful()) {
+                ScheduleListDTO scheduleListDTO = JsonUtil.deserialize(response.getBody(), ScheduleListDTO.class);
+                table.setItems(FXCollections.observableArrayList(scheduleListDTO.getScheduleList()));
+                alert("Successfully deleted!");
+            } else {
+                alert(Alert.AlertType.ERROR, "Cannot fill in table!", response.getBody());
+            }
+        } catch (ClientException e) {
+            logger.error(e);
+            alert(Alert.AlertType.ERROR, "Cannot fill in table!", e.getMessage());
+        }
+    }
+
+    @FXML
+    void updateByScheduleId(ActionEvent event) {
+
+        if (scheduleIdupdate.getText() == null || scheduleIdupdate.getText().isEmpty()) {
+            alert(Alert.AlertType.ERROR, "Cannot update Schedule!", "Invalid schedule Id!");
+        } else {
+            Map<String, String> params = prepareFilterParams();
+            params.put("scheduleUpdate", scheduleIdupdate.getText().trim());
+            try {
+                ContextHolder.getClient().sendRequest(new CommandRequest("UPDATE_SCHEDULE", params));
+                CommandResponse response = ContextHolder.getLastResponse();
+                if (response.getStatus().is2xxSuccessful()) {
+                    ScheduleListDTO scheduleListDTO = JsonUtil.deserialize(response.getBody(), ScheduleListDTO.class);
+                    table.setItems(FXCollections.observableArrayList(scheduleListDTO.getScheduleList()));
+                    alert("Successfully deleted!");
+                } else {
+                    alert(Alert.AlertType.ERROR, "Cannot fill in table!", response.getBody());
+                }
+            } catch (ClientException e) {
+                logger.error(e);
+                alert(Alert.AlertType.ERROR, "Cannot fill in table!", e.getMessage());
+            }
+        }
+    }
+
+    @FXML
+    void addFilm(ActionEvent event) {
+
+    }
+
+    @FXML
+    void updateByFilmId(ActionEvent event) {
+
+    }
+
     private Map<String, String> prepareFilterParams() {
         String id = searchByIdTextField.getText();
         String title = searchByTitleTextField.getText();
+
+        String costToUpdate = costUpdate.getText();
+        String durationToUpdate = durationUpdate.getText();
+        String ticketsCountToUpdate = ticketsCountUpdate.getText();
+        LocalDate dateToUpdate = dateUpdate.getValue();
+        String titleToUpdate = titleUpdate.getText();
+
+
         Map<String, String> params = new HashMap<>();
         if (id != null && !id.isEmpty()) {
-            params.put("id", id);
+            params.put(FILTER_PARAM_SCHEDULE_ID, id);
         }
         if (title != null && !title.isEmpty()) {
-            params.put("title", title);
+            params.put(FILTER_PARAM_TITLE, title);
         }
+
+        if (costToUpdate != null && !costToUpdate.isEmpty()) {
+            params.put(UPDATE_PARAM_COST, costToUpdate);
+        }
+        if (durationToUpdate != null && !durationToUpdate.isEmpty()) {
+            params.put(UPDATE_PARAM_DURATION, durationToUpdate);
+        }
+        if (ticketsCountToUpdate != null && !ticketsCountToUpdate.isEmpty()) {
+            params.put(UPDATE_PARAM_TICKETS, ticketsCountToUpdate);
+        }
+        if (dateToUpdate != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_TIME_FORMAT_PATTERN);
+            params.put(UPDATE_PARAM_DATE, dateFormat.format(dateToUpdate));
+        }
+        if (titleToUpdate != null && !titleToUpdate.isEmpty()) {
+            params.put(UPDATE_PARAM_TITLE, titleToUpdate);
+        }
+
         return params;
     }
 
@@ -198,6 +278,6 @@ public class ManageFilmsController {
     }
 
     public static void setFirstOpened(boolean firstOpened) {
-        FilmsController.firstOpened = firstOpened;
+        ManageFilmsController.firstOpened = firstOpened;
     }
 }

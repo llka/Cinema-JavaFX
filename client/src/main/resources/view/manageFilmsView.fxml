@@ -19,23 +19,23 @@
         <VBox layoutX="94.0" layoutY="54.0" prefHeight="112.0" prefWidth="85.0" spacing="4.0">
             <children>
                 <TextField fx:id="scheduleIdupdate" prefHeight="25.0" prefWidth="79.0" promptText="Id" />
-            <TextField fx:id="filmIdUpdate" promptText="Film Id" />
-            <TextField fx:id="titleUpdate" promptText="Title" />
+                <TextField fx:id="filmIdUpdate" promptText="Film Id" />
+                <TextField fx:id="titleUpdate" promptText="Title" />
                 <TextField fx:id="costUpdate" promptText="Cost" />
-            <TextField fx:id="durationUpdate" promptText="Duration" />
-            <TextField fx:id="dateUpdate" promptText="Date" />
-            <TextField fx:id="ticketsCountUpdate" promptText="Tickets count" />
+                <TextField fx:id="durationUpdate" promptText="Duration" />
+            <DatePicker fx:id="dateUpdate" />
+                <TextField fx:id="ticketsCountUpdate" promptText="Tickets count" />
             </children>
         </VBox>
         <VBox layoutX="11.0" layoutY="58.0" prefHeight="104.0" prefWidth="79.0" spacing="12.0">
             <children>
                 <Label text="Schedule Id" />
                 <Label text="Film Id" />
-            <Label text="Title" />
+                <Label text="Title" />
                 <Label prefHeight="17.0" prefWidth="85.0" text="Ticket Cost " />
-            <Label text="Duration" />
-            <Label text="Date" />
-            <Label text="Tickets Count" />
+                <Label text="Duration" />
+                <Label text="Date" />
+                <Label text="Tickets Count" />
             </children>
         </VBox>
         <Separator layoutY="16.0" prefHeight="4.0" prefWidth="600.0" />
@@ -55,7 +55,7 @@
 
         <Button fx:id="deleteBtn" layoutX="418.0" layoutY="76.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
         <Button fx:id="updateByScheduleBtn" layoutX="27.0" layoutY="263.0" mnemonicParsing="false" onAction="#updateByScheduleId" text="Update By Schedule Id" />
-      <Button fx:id="addBtn" layoutX="51.0" layoutY="330.0" mnemonicParsing="false" onAction="#addFilm" text="Add new film" />
-      <Button fx:id="updateByFilmIdBtn" layoutX="40.0" layoutY="294.0" mnemonicParsing="false" onAction="#updateByFilmId" text="Update By Film Id" />
+        <Button fx:id="addBtn" layoutX="52.0" layoutY="330.0" mnemonicParsing="false" onAction="#addFilm" text="Add new film" />
+        <Button fx:id="updateByFilmIdBtn" layoutX="40.0" layoutY="294.0" mnemonicParsing="false" onAction="#updateByFilmId" text="Update By Film Id" />
     </children>
 </AnchorPane>
