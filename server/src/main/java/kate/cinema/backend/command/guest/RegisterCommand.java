@@ -23,16 +23,16 @@ public class RegisterCommand implements ActionCommand {
         ContactService contactService = new ContactService();
 
         Contact contact = JsonUtil.deserialize(request.getBody(), Contact.class);
-        if(contact.getFirstName() == null || contact.getFirstName().isEmpty()){
+        if (contact.getFirstName() == null || contact.getFirstName().isEmpty()) {
             throw new ApplicationException("Invalid First name!", ResponseStatus.BAD_REQUEST);
         }
-        if(contact.getLastName() == null || contact.getLastName().isEmpty()){
+        if (contact.getLastName() == null || contact.getLastName().isEmpty()) {
             throw new ApplicationException("Invalid Last name!", ResponseStatus.BAD_REQUEST);
         }
-        if(contact.getEmail() == null || contact.getEmail().isEmpty()){
+        if (contact.getEmail() == null || contact.getEmail().isEmpty()) {
             throw new ApplicationException("Invalid Email!", ResponseStatus.BAD_REQUEST);
         }
-        if(contact.getPassword() == null || contact.getPassword().isEmpty()){
+        if (contact.getPassword() == null || contact.getPassword().isEmpty()) {
             throw new ApplicationException("Invalid Password!", ResponseStatus.BAD_REQUEST);
         }
 
