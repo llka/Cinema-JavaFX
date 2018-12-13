@@ -11,6 +11,7 @@ import kate.cinema.client.client.ContextHolder;
 import kate.cinema.client.exception.ClientException;
 import kate.cinema.client.util.JsonUtil;
 import kate.cinema.dto.ScheduleListDTO;
+import kate.cinema.entity.Film;
 import kate.cinema.entity.Schedule;
 import kate.cinema.entity.technical.CommandRequest;
 import kate.cinema.entity.technical.CommandResponse;
@@ -18,7 +19,10 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +34,8 @@ public class ManageFilmsController {
     private static final String DATE_TIME_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss";
     private static final String FILTER_PARAM_SCHEDULE_ID = "scheduleId";
     private static final String FILTER_PARAM_TITLE = "title";
+
+    private static final String UPDATE_FILM_ID = "filmIdUpdate";
     private static final String UPDATE_PARAM_COST = "costToUpdate";
     private static final String UPDATE_PARAM_DURATION = "durationToUpdate";
     private static final String UPDATE_PARAM_TICKETS = "ticketsCountToUpdate";
@@ -101,7 +107,7 @@ public class ManageFilmsController {
 
         idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
         titleColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFilm().getTitle()));
-        costColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFilm().getTicketCost().toString()));
+        costColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTicketCost().toString()));
         ticketsLeftColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getFilm().getTicketsLeft()).asObject());
         durationColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getFilm().getDurationInMin()).asObject());
 
@@ -191,17 +197,16 @@ public class ManageFilmsController {
                 table.setItems(FXCollections.observableArrayList(scheduleListDTO.getScheduleList()));
                 alert("Successfully deleted!");
             } else {
-                alert(Alert.AlertType.ERROR, "Cannot fill in table!", response.getBody());
+                alert(Alert.AlertType.ERROR, "Cannot delete schedule!", response.getBody());
             }
         } catch (ClientException e) {
             logger.error(e);
-            alert(Alert.AlertType.ERROR, "Cannot fill in table!", e.getMessage());
+            alert(Alert.AlertType.ERROR, "Cannot delete schedule!", e.getMessage());
         }
     }
 
     @FXML
     void updateByScheduleId(ActionEvent event) {
-
         if (scheduleIdupdate.getText() == null || scheduleIdupdate.getText().isEmpty()) {
             alert(Alert.AlertType.ERROR, "Cannot update Schedule!", "Invalid schedule Id!");
         } else {
@@ -213,9 +218,9 @@ public class ManageFilmsController {
                 if (response.getStatus().is2xxSuccessful()) {
                     ScheduleListDTO scheduleListDTO = JsonUtil.deserialize(response.getBody(), ScheduleListDTO.class);
                     table.setItems(FXCollections.observableArrayList(scheduleListDTO.getScheduleList()));
-                    alert("Successfully deleted!");
+                    alert("Successfully updated!");
                 } else {
-                    alert(Alert.AlertType.ERROR, "Cannot fill in table!", response.getBody());
+                    alert(Alert.AlertType.ERROR, "Cannot update schedule!", response.getBody());
                 }
             } catch (ClientException e) {
                 logger.error(e);
@@ -226,12 +231,62 @@ public class ManageFilmsController {
 
     @FXML
     void addFilm(ActionEvent event) {
+        Map<String, String> params = prepareFilterParams();
+        if (params == null || params.isEmpty()
+                || params.get(UPDATE_PARAM_TITLE) == null || params.get(UPDATE_PARAM_TITLE).isEmpty()
+                || params.get(UPDATE_PARAM_TICKETS) == null || params.get(UPDATE_PARAM_TICKETS).isEmpty()
+                || params.get(UPDATE_PARAM_DURATION) == null || params.get(UPDATE_PARAM_DURATION).isEmpty()) {
+            alert(Alert.AlertType.ERROR, "Cannot create film!", "Not enough info!");
+        } else {
+            Film film = new Film();
+            film.setTitle(params.get(UPDATE_PARAM_TITLE));
+            try {
+                film.setTicketsLeft(Integer.parseInt(params.get(UPDATE_PARAM_TICKETS)));
+                film.setDurationInMin(Integer.parseInt(params.get(UPDATE_PARAM_DURATION)));
+            } catch (NumberFormatException e) {
+                alert(Alert.AlertType.ERROR, "Cannot create film!", "Invalid data!");
+                return;
+            }
 
+            try {
+                ContextHolder.getClient().sendRequest(new CommandRequest("CREATE_FILM", JsonUtil.serialize(film), params));
+                CommandResponse response = ContextHolder.getLastResponse();
+                if (response.getStatus().is2xxSuccessful()) {
+                    ScheduleListDTO scheduleListDTO = JsonUtil.deserialize(response.getBody(), ScheduleListDTO.class);
+                    table.setItems(FXCollections.observableArrayList(scheduleListDTO.getScheduleList()));
+                    alert("Successfully created a new film!");
+                } else {
+                    alert(Alert.AlertType.ERROR, "Cannot create a new film!", response.getBody());
+                }
+            } catch (ClientException e) {
+                logger.error(e);
+                alert(Alert.AlertType.ERROR, "Cannot create a new film!", e.getMessage());
+            }
+        }
     }
 
     @FXML
     void updateByFilmId(ActionEvent event) {
-
+        if (filmIdUpdate.getText() == null || filmIdUpdate.getText().isEmpty()) {
+            alert(Alert.AlertType.ERROR, "Cannot update Film!", "Invalid film Id!");
+        } else {
+            Map<String, String> params = prepareFilterParams();
+            params.put(UPDATE_FILM_ID, filmIdUpdate.getText().trim());
+            try {
+                ContextHolder.getClient().sendRequest(new CommandRequest("UPDATE_FILM", params));
+                CommandResponse response = ContextHolder.getLastResponse();
+                if (response.getStatus().is2xxSuccessful()) {
+                    ScheduleListDTO scheduleListDTO = JsonUtil.deserialize(response.getBody(), ScheduleListDTO.class);
+                    table.setItems(FXCollections.observableArrayList(scheduleListDTO.getScheduleList()));
+                    alert("Successfully updated!");
+                } else {
+                    alert(Alert.AlertType.ERROR, "Cannot update film!", response.getBody());
+                }
+            } catch (ClientException e) {
+                logger.error(e);
+                alert(Alert.AlertType.ERROR, "Cannot update film!", e.getMessage());
+            }
+        }
     }
 
     private Map<String, String> prepareFilterParams() {
@@ -263,8 +318,10 @@ public class ManageFilmsController {
             params.put(UPDATE_PARAM_TICKETS, ticketsCountToUpdate);
         }
         if (dateToUpdate != null) {
+            Instant instant = Instant.from(dateToUpdate.atStartOfDay(ZoneId.systemDefault()));
             SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_TIME_FORMAT_PATTERN);
-            params.put(UPDATE_PARAM_DATE, dateFormat.format(dateToUpdate));
+            Date date = Date.from(instant);
+            params.put(UPDATE_PARAM_DATE, dateFormat.format(date));
         }
         if (titleToUpdate != null && !titleToUpdate.isEmpty()) {
             params.put(UPDATE_PARAM_TITLE, titleToUpdate);

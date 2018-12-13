@@ -36,7 +36,6 @@ CREATE TABLE IF NOT EXISTS `cinema`.`film` (
   `film_id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(45) NOT NULL,
   `duration` INT NULL,
-  `ticket_cost` DECIMAL(10,2) NULL,
   `tickets_left_count` INT NULL,
   PRIMARY KEY (`film_id`),
   UNIQUE INDEX `title_UNIQUE` (`title` ASC))
@@ -50,6 +49,7 @@ CREATE TABLE IF NOT EXISTS `cinema`.`shedule` (
   `shedule_id` INT NOT NULL AUTO_INCREMENT,
   `film_id` INT NOT NULL,
   `date` DATETIME NOT NULL,
+  `ticket_cost` DECIMAL(10,2) NOT NULL,
   PRIMARY KEY (`shedule_id`),
   INDEX `film_key_idx` (`film_id` ASC),
   CONSTRAINT `film_key`

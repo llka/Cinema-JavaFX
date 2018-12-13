@@ -23,15 +23,15 @@ public class ScheduleDAO {
     private static final Logger logger = LogManager.getLogger(ScheduleDAO.class);
     private static final String DATE_TIME_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
-    private static final String SAVE = "INSERT INTO `shedule` (`film_id`, `date`) " +
-            " VALUES (?, ?, ?, ?)";
-    private static final String UPDATE = "UPDATE `shedule` SET `film_id` = ?, `date` = ? " +
+    private static final String SAVE = "INSERT INTO `shedule` (`film_id`, `date`, `ticket_cost`) " +
+            " VALUES (?, ?, ?)";
+    private static final String UPDATE = "UPDATE `shedule` SET `film_id` = ?, `date` = ?, `ticket_cost` = ? " +
             " WHERE `shedule_id` = ?";
-    private static final String GET_BY_ID = "SELECT `shedule_id`, `film_id`, `date` " +
+    private static final String GET_BY_ID = "SELECT `shedule_id`, `film_id`, `date`, `ticket_cost` " +
             " FROM `shedule` WHERE `shedule_id` = ?";
-    private static final String GET_ALL = "SELECT `shedule_id`, `film_id`, `date` " +
+    private static final String GET_ALL = "SELECT `shedule_id`, `film_id`, `date`, `ticket_cost` " +
             " FROM `shedule`";
-    private static final String FIND = "SELECT `shedule`.`shedule_id`, `shedule`.`film_id`, `shedule`.`date` " +
+    private static final String FIND = "SELECT `shedule`.`shedule_id`, `shedule`.`film_id`, `shedule`.`date`, `shedule`.`ticket_cost` " +
             " FROM `shedule` JOIN `film` ON `film`.`film_id` = `shedule`.`film_id` WHERE ";
 
 
@@ -40,6 +40,7 @@ public class ScheduleDAO {
     private static final String COLUMN_FILM_ID = "film_id";
     private static final String COLUMN_SCHEDULE_ID = "shedule_id";
     private static final String COLUMN_DATE = "date";
+    private static final String COLUMN_TICKET_COST = "ticket_cost";
 
     private FilmDAO filmDAO;
 
@@ -58,6 +59,7 @@ public class ScheduleDAO {
             } else {
                 preparedStatement.setString(2, null);
             }
+            preparedStatement.setBigDecimal(3, schedule.getTicketCost());
 
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -76,7 +78,8 @@ public class ScheduleDAO {
             } else {
                 preparedStatement.setString(2, null);
             }
-            preparedStatement.setInt(3, schedule.getId());
+            preparedStatement.setBigDecimal(3, schedule.getTicketCost());
+            preparedStatement.setInt(4, schedule.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
             throw new ApplicationException("Cannot update schedule. " + schedule + ". " + e, ResponseStatus.BAD_REQUEST);
@@ -180,6 +183,7 @@ public class ScheduleDAO {
             Schedule schedule = new Schedule();
             schedule.setId(resultSet.getInt(COLUMN_SCHEDULE_ID));
             schedule.setFilm(filmDAO.getById(resultSet.getInt(COLUMN_FILM_ID)));
+            schedule.setTicketCost(resultSet.getBigDecimal(COLUMN_TICKET_COST));
             try {
                 if (resultSet.getDate(COLUMN_DATE) != null) {
                     schedule.setDate(dateFormat.parse(resultSet.getString(COLUMN_DATE)));

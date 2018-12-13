@@ -336,12 +336,12 @@ public class MainController {
 
     @FXML
     void openManageFilmsView(ActionEvent event) {
-//        if (isAuthenticatedAdmin()) {
-//             FilmsController.setFirstOpened(true);
-//            main.showView("/view/manageFilmsView.fxml");
-//        } else {
-//            alert(Alert.AlertType.ERROR, "You are not authorized!", "You are not authorized!");
-//        }
+        if (isAuthenticatedAdmin()) {
+            ManageFilmsController.setFirstOpened(true);
+            main.showView("/view/manageFilmsView.fxml");
+        } else {
+            alert(Alert.AlertType.ERROR, "You are not authorized!", "You are not authorized!");
+        }
     }
 
     private void refreshMenuItemsAccordingToVisitorRole() {

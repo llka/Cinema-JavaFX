@@ -11,7 +11,6 @@ public class Film implements DatabaseEntity{
     private String title;
     @Positive
     private int durationInMin;
-    private BigDecimal ticketCost;
     private int ticketsLeft;
 
     public Film() {
@@ -41,14 +40,6 @@ public class Film implements DatabaseEntity{
         this.durationInMin = durationInMin;
     }
 
-    public BigDecimal getTicketCost() {
-        return ticketCost;
-    }
-
-    public void setTicketCost(BigDecimal ticketCost) {
-        this.ticketCost = ticketCost;
-    }
-
     public int getTicketsLeft() {
         return ticketsLeft;
     }
@@ -65,13 +56,12 @@ public class Film implements DatabaseEntity{
         return id == film.id &&
                 durationInMin == film.durationInMin &&
                 ticketsLeft == film.ticketsLeft &&
-                Objects.equals(title, film.title) &&
-                Objects.equals(ticketCost, film.ticketCost);
+                Objects.equals(title, film.title);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, durationInMin, ticketCost, ticketsLeft);
+        return Objects.hash(id, title, durationInMin, ticketsLeft);
     }
 
     @Override
@@ -80,7 +70,6 @@ public class Film implements DatabaseEntity{
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", durationInMin=" + durationInMin +
-                ", ticketCost=" + ticketCost +
                 ", ticketsLeft=" + ticketsLeft +
                 '}';
     }

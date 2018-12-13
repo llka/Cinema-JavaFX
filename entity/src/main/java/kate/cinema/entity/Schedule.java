@@ -1,6 +1,7 @@
 package kate.cinema.entity;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
@@ -8,6 +9,8 @@ public class Schedule implements DatabaseEntity {
     private int id;
     @NotNull
     private Film film;
+    @NotNull
+    private BigDecimal ticketCost;
     @NotNull
     private Date date;
 
@@ -38,6 +41,14 @@ public class Schedule implements DatabaseEntity {
         this.date = date;
     }
 
+    public BigDecimal getTicketCost() {
+        return ticketCost;
+    }
+
+    public void setTicketCost(BigDecimal ticketCost) {
+        this.ticketCost = ticketCost;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -59,6 +70,7 @@ public class Schedule implements DatabaseEntity {
         return "Schedule{" +
                 "id=" + id +
                 ", film=" + film +
+                ", ticketCost=" + ticketCost +
                 ", date=" + date +
                 '}';
     }

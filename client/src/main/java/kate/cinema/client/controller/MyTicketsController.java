@@ -80,10 +80,7 @@ public class MyTicketsController {
     }
 
     private void fillTable() {
-        Contact contact = ContextHolder.getSession().getVisitor().getContact();
-        if (contact != null && contact.getTickets() != null) {
-            table.setItems(FXCollections.observableArrayList(contact.getTickets()));
-        }
+        refresh(new ActionEvent());
     }
 
     @FXML

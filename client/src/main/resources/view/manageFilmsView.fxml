@@ -54,7 +54,7 @@
 
 
         <Button fx:id="deleteBtn" layoutX="418.0" layoutY="76.0" mnemonicParsing="false" onAction="#delete" text="Delete" />
-        <Button fx:id="updateByScheduleBtn" layoutX="27.0" layoutY="263.0" mnemonicParsing="false" onAction="#updateByScheduleId" text="Update By Schedule Id" />
+        <Button fx:id="updateByScheduleBtn" layoutX="14.0" layoutY="260.0" mnemonicParsing="false" onAction="#updateByScheduleId" text="Update Date By Schedule Id" />
         <Button fx:id="addBtn" layoutX="52.0" layoutY="330.0" mnemonicParsing="false" onAction="#addFilm" text="Add new film" />
         <Button fx:id="updateByFilmIdBtn" layoutX="40.0" layoutY="294.0" mnemonicParsing="false" onAction="#updateByFilmId" text="Update By Film Id" />
     </children>

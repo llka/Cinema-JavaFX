@@ -44,7 +44,7 @@ public class TicketService {
         Ticket ticket = new Ticket();
         ticket.setSchedule(schedule);
         ticket.setPlaceNumber(place);
-        ticket.setCost(schedule.getFilm().getTicketCost());
+        ticket.setCost(schedule.getTicketCost());
         ticket = ticketDAO.save(ticket);
         ticketDAO.saveToContactsTickets(ticket, contact);
         film.setTicketsLeft(--available);

@@ -72,7 +72,7 @@ public class FilmsController {
 
         idColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getId()).asObject());
         titleColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFilm().getTitle()));
-        costColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFilm().getTicketCost().toString()));
+        costColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTicketCost().toString()));
         ticketsLeftColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getFilm().getTicketsLeft()).asObject());
         durationColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getFilm().getDurationInMin()).asObject());
 
